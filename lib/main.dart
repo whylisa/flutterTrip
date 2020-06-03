@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trip/main_flutter_layout.dart';
 import 'package:trip/main_statefulwidget.dart';
 import 'package:trip/main_statelesswidget.dart';
+import 'package:trip/gesture.dart';
 void main() {
   runApp(StartApp());
 }
@@ -19,6 +20,7 @@ class StartApp extends StatelessWidget{
         'less':(BuildContext context) => MyApp(),
         'ful':(BuildContext context) => StateFullGroups(),
         'lay':(BuildContext context) => StateFullGroupLay(),
+        'gest':(BuildContext context) => GesturePage(),
       }
     );
   }
@@ -46,6 +48,7 @@ class _StateFullGroupRouteState extends State<StateFullGroupRoute> {
         _item('Stateless',MyApp(),'less'),
         _item('Stateless',StateFullGroups(),'ful'),
         _item('Stateless',StateFullGroupLay(),'lay'),
+        _item('gesture',GesturePage(),'gest'),
         ],
       )
     );

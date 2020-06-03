@@ -42,3 +42,14 @@
      - Positioned 固定view的位置，和stack 搭配
      - Flexble
        - Expanded 展开
+## 手势
+   - onTap
+   - onDoubleTap
+   - onTapCancel
+   - onTapUp
+   - onTapDown
+   - onLongPress
+## 导入外部资源
+   - 
+## 打开第三方app
+   - url_launcher
