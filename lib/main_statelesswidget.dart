@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "hh",
       home: Scaffold(
-              appBar: AppBar(title: Text('ddd')),
+              appBar: AppBar(
+                title: Text('ddd'),
+                leading: GestureDetector( 
+                onTap: () {
+                  Navigator.pop(context);
+                 },
+                child: Icon(Icons.arrow_back),
+               )
+              ),
               body: Container(
               decoration: BoxDecoration(color: Colors.white),
               alignment: Alignment.center,
