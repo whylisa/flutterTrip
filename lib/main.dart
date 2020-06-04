@@ -3,6 +3,7 @@ import 'package:trip/main_flutter_layout.dart';
 import 'package:trip/main_statefulwidget.dart';
 import 'package:trip/main_statelesswidget.dart';
 import 'package:trip/gesture.dart';
+import 'package:trip/wechat.dart';
 void main() {
   runApp(StartApp());
 }
@@ -21,6 +22,7 @@ class StartApp extends StatelessWidget{
         'ful':(BuildContext context) => StateFullGroups(),
         'lay':(BuildContext context) => StateFullGroupLay(),
         'gest':(BuildContext context) => GesturePage(),
+        'wetch':(BuildContext context) => Wechat(),
       }
     );
   }
@@ -49,6 +51,7 @@ class _StateFullGroupRouteState extends State<StateFullGroupRoute> {
         _item('Stateless',StateFullGroups(),'ful'),
         _item('Stateless',StateFullGroupLay(),'lay'),
         _item('gesture',GesturePage(),'gest'),
+        _item('wechat',Wechat(),'wetch'),
         ],
       )
     );

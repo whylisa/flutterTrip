@@ -53,3 +53,9 @@
    - 
 ## 打开第三方app
    - url_launcher
+## 字体图标
+  - ttf字体文件 
+  - 在yaml 启动字体
+  - 局部应用，TextSytle(ff)
+## 拍照
+  - image_picker 插件

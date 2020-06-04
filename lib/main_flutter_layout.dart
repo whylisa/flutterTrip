@@ -35,12 +35,12 @@ class _StateFullGroupState extends State<StateFullGroupLay> {
              BottomNavigationBarItem(
                icon: Icon(Icons.home,color: Colors.grey),
                activeIcon: Icon(Icons.home, color: Colors.blue),
-               title: Text('首页')
+               title: Text('商机')
              ),
              BottomNavigationBarItem(
                icon: Icon(Icons.list,color: Colors.grey),
                activeIcon: Icon(Icons.list, color: Colors.blue),
-               title: Text('列表')
+               title: Text('CRM')
              )
         ]),
         floatingActionButton: FloatingActionButton( // 悬浮框
