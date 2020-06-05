@@ -59,3 +59,6 @@
   - 局部应用，TextSytle(ff)
 ## 拍照
   - image_picker 插件
+## 移除padding
+  - MediaQuery.removePadding(context: context, child: ;;;)
+  - 监听列表的滚动： NotificationListener(child: ;onNotifation: (scrollNotification){}
