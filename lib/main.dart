@@ -28,7 +28,8 @@ class _MyAppState extends State<MyApp> {
   String showResult = '';
   Future<CommonModel> fetchPost() async {
     final response = await http.get('http://www.devio.org/io/flutter_app/json/test_common_model.json');
-    final result = json.decode(response.body);
+    Utf8Decoder utf8decoder = Utf8Decoder();
+    final result = json.decode(utf8decoder.convert(response.bodyBytes));
     return CommonModel.fromJson(result);
   }
   @override
@@ -36,23 +37,36 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('http'),
+          title: Text('Future与FutureBuilder'),
         ),
-        body: Column(
-          children: <Widget>[
-            InkWell(
-              onTap: (){
-                fetchPost().then((CommonModel value){
-                  setState(() {
-                    showResult = '请求结果：\nhideAppBar: ${value.hideAppBar}\nicon${value.icon}';
-                  });
-                });
-              },
-              child: Text('点我',style: TextStyle(fontSize: 26),),
-            ),
-            Text(showResult)
-          ],
-        ),
+        body: FutureBuilder<CommonModel>(
+          future: fetchPost(),
+          builder: (BuildContext context, AsyncSnapshot<CommonModel> snapshot){
+             switch(snapshot.connectionState) {
+               case ConnectionState.none:
+                 return Text('Input a URL To start');
+               case ConnectionState.waiting:
+                 return Center(child: CircularProgressIndicator(),);
+               case ConnectionState.active:
+                 return Text('');
+               case ConnectionState.done:
+                 if(snapshot.hasError) {
+                   return Text(
+                     '${snapshot.error}',
+                     style: TextStyle(color: Colors.red),
+                   );
+                 } else {
+                   return Column(
+                     children: <Widget>[
+                       Text('icon: ${snapshot.data.icon}'),
+                       Text('icon: ${snapshot.data.statusBarColor}'),
+                       Text('icon: ${snapshot.data.title}'),
+                       Text('icon: ${snapshot.data.url}'),
+                     ],
+                   );
+                 }
+             }
+        },)
       ),
     );
   }
