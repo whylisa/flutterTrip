@@ -23,7 +23,7 @@ import 'package:trip/navigator/tab_navigator.dart';
  }
 
  class _MyAppState extends State<MyApp> {
-   List<String> cityNames = ['北京','上海','上海','上海','上海','上海',];
+   List<String> cityNames = ['北京','上海','上海','上海','上海','上海','上海','上海','naj',];
    ScrollController _scrollController = ScrollController();
    @override
    void initState() {
@@ -32,6 +32,12 @@ import 'package:trip/navigator/tab_navigator.dart';
         _loadData();
        }
      });
+     super.initState();
+   }
+   @override
+   void dispose() {
+     _scrollController.dispose();
+     super.dispose();
    }
    @override
    Widget build(BuildContext context) {
@@ -43,11 +49,21 @@ import 'package:trip/navigator/tab_navigator.dart';
          body: RefreshIndicator(
            onRefresh: _handRefresh,
            child: ListView(
+             controller: _scrollController,
              children: _buildList(),
            ),
          ),
        ),
      );
+   }
+   _loadData() async {
+     await Future.delayed(Duration(milliseconds: 200));
+     setState(() {
+       List<String> list = List<String>.from(cityNames);
+       list.addAll(cityNames);
+       print(list);
+       cityNames = list;
+     });
    }
    Future<Null> _handRefresh() async {
      await Future.delayed(Duration(seconds: 2));
