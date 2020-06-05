@@ -65,3 +65,10 @@
 
 ## http 请求
 ## futrue
+## json解析
+   - 插件
+     - json_serializable
+     - built_value
+     - json to dart
+## 数据存储
+   - shared_preferences 本地存储
