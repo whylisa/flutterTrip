@@ -62,3 +62,5 @@
 ## 移除padding
   - MediaQuery.removePadding(context: context, child: ;;;)
   - 监听列表的滚动： NotificationListener(child: ;onNotifation: (scrollNotification){}
+
+## http 请求
