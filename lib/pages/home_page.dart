@@ -1,5 +1,12 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:trip/dao/home_dao.dart';
+import 'package:trip/model/common_model.dart';
+import 'package:trip/model/home_model.dart';
+import 'package:trip/widget/local_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -14,7 +21,11 @@ class _HomePageState extends State<HomePage> {
      'https://dimg04.c-ctrip.com/images/700u0r000000gxvb93E54_810_235_85.jpg',
      'https://dimg04.c-ctrip.com/images/700u0r000000gxvb93E54_810_235_85.jpg',
   ];
+
+
+  String resultString ='';
   double appBarApha = 0;
+  List<CommonModel> localNavList = [];
   _onScroll(offset) {
     // 动态设置透明度
     double alpha = offset/APPBAR_SCROLL_OFFSET;
@@ -27,6 +38,34 @@ class _HomePageState extends State<HomePage> {
       appBarApha = alpha;
     });
     print(appBarApha);
+  }
+  @override
+  initState() {
+    super.initState();
+    loadData();
+
+  }
+  loadData() async{
+//    HomeDao.fetch().then((value){
+//      setState(() {
+//        resultString = json.encode(value);
+//      });
+//    }).catchError((e){
+//      setState(() {
+//        resultString = e.toString();
+//      });
+//    });
+  try{
+    HomeModel model = await HomeDao.fetch();
+    setState(() {
+      localNavList = model.localNavList;
+
+    });
+  }catch(e){
+    setState(() {
+      resultString = e.toString();
+    });
+  }
   }
   @override
   Widget build(BuildContext context) {
@@ -61,9 +100,13 @@ class _HomePageState extends State<HomePage> {
 
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                    ),
+                    LocalNav(localNavList: localNavList,),
                     Container(
                       height: 800,
-                      child: ListTile(title: Text("hiahi")),
+                      child: ListTile(title: Text(resultString)),
                     )
                   ],
                 ),
