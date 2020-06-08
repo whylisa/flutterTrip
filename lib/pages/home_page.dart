@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:trip/dao/home_dao.dart';
 import 'package:trip/model/common_model.dart';
+import 'package:trip/model/grid_nav_model.dart';
 import 'package:trip/model/home_model.dart';
+import 'package:trip/widget/grid_nav.dart';
 import 'package:trip/widget/local_nav.dart';
+import 'package:trip/widget/sub_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -23,9 +26,12 @@ class _HomePageState extends State<HomePage> {
   ];
 
 
-  String resultString ='';
+  String resultString = '';
   double appBarApha = 0;
   List<CommonModel> localNavList = [];
+  List<CommonModel> subNavList = [];
+  GridNavModel gridNavModel;
+
   _onScroll(offset) {
     // 动态设置透明度
     double alpha = offset/APPBAR_SCROLL_OFFSET;
@@ -59,6 +65,9 @@ class _HomePageState extends State<HomePage> {
     HomeModel model = await HomeDao.fetch();
     setState(() {
       localNavList = model.localNavList;
+      gridNavModel = model.gridNav;
+      subNavList = model.subNavList;
+
 
     });
   }catch(e){
@@ -104,6 +113,8 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
                     ),
                     LocalNav(localNavList: localNavList,),
+                    GridNav(gridNavModel: gridNavModel,),
+//                    SubNav(subNavList: subNavList,),
                     Container(
                       height: 800,
                       child: ListTile(title: Text(resultString)),
