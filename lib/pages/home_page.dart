@@ -9,6 +9,7 @@ import 'package:trip/model/grid_nav_model.dart';
 import 'package:trip/model/home_model.dart';
 import 'package:trip/model/sales_box_model.dart';
 import 'package:trip/widget/grid_nav.dart';
+import 'package:trip/widget/loadingContainer.dart';
 import 'package:trip/widget/local_nav.dart';
 import 'package:trip/widget/sales_box.dart';
 import 'package:trip/widget/sub_nav.dart';
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   List<CommonModel> subNavList = [];
   GridNavModel gridNavModel;
   SalesBoxModel salesBoxlist;
+  bool _loading = true;
 
   _onScroll(offset) {
     // 动态设置透明度
@@ -71,78 +73,81 @@ class _HomePageState extends State<HomePage> {
       gridNavModel = model.gridNav;
       subNavList = model.subNavList;
       salesBoxlist = model.salesBox;
-
-
+      _loading = false;
     });
   }catch(e){
     setState(() {
       resultString = e.toString();
+      _loading = false;
+
     });
   }
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold( // 脚手架
-      body: Stack( // 层叠元素
-        children: <Widget>[
-          MediaQuery.removePadding( // 移除padding
-              removeTop: true,// 移除哪边的padding
-              context: context,
-              child: NotificationListener( // 监听滚动
-                onNotification: (scrollNotification){
-                  // 第0个元素触发滚动监听
-                  if(scrollNotification is ScrollUpdateNotification && scrollNotification.depth==0){
-                    // 滚动且是列表滚动的时候
-                    _onScroll(scrollNotification.metrics.pixels);
-                  }
-                },
-                child: ListView( // 列表
-                  children: <Widget>[
-                    Container(
-                      height: 160,
-                      child: Swiper(
-                        itemCount: _imageUrls.length,
-                        autoplay: true,
-                        itemBuilder: (BuildContext context, int index){
-                          return Image.network(
-                            _imageUrls[index],
-                            fit: BoxFit.fill,
-                          );
-                        },
-                        pagination: SwiperPagination(),
+      body: LoadingContainer(
+        isLoading: _loading,
+        child: Stack( // 层叠元素
+          children: <Widget>[
+            MediaQuery.removePadding( // 移除padding
+                removeTop: true,// 移除哪边的padding
+                context: context,
+                child: NotificationListener( // 监听滚动
+                  onNotification: (scrollNotification){
+                    // 第0个元素触发滚动监听
+                    if(scrollNotification is ScrollUpdateNotification && scrollNotification.depth==0){
+                      // 滚动且是列表滚动的时候
+                      _onScroll(scrollNotification.metrics.pixels);
+                    }
+                  },
+                  child: ListView( // 列表
+                    children: <Widget>[
+                      Container(
+                        height: 160,
+                        child: Swiper(
+                          itemCount: _imageUrls.length,
+                          autoplay: true,
+                          itemBuilder: (BuildContext context, int index){
+                            return Image.network(
+                              _imageUrls[index],
+                              fit: BoxFit.fill,
+                            );
+                          },
+                          pagination: SwiperPagination(),
 
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-                    ),
-                    LocalNav(localNavList: localNavList,),
-                    GridNav(gridNavModel: gridNavModel,),
-                    SubNav(subNavList: subNavList,),
-                    SalesBox(salesBox: salesBoxlist,),
-                    Container(
-                      height: 800,
-                      child: ListTile(title: Text(resultString)),
-                    )
-                  ],
-                ),
-              )
-          ),
-          Opacity(
-            opacity: appBarApha,
-            child: Container(
-              height: 80,
-              decoration: BoxDecoration(color: Colors.white),
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text('首页'),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                      ),
+                      LocalNav(localNavList: localNavList,),
+                      GridNav(gridNavModel: gridNavModel,),
+                      SubNav(subNavList: subNavList,),
+                      SalesBox(salesBox: salesBoxlist,),
+                      Container(
+                        height: 800,
+                        child: ListTile(title: Text(resultString)),
+                      )
+                    ],
+                  ),
+                )
+            ),
+            Opacity(
+              opacity: appBarApha,
+              child: Container(
+                height: 80,
+                decoration: BoxDecoration(color: Colors.white),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Text('首页'),
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
-      )
+            )
+          ],
+        ),)
     );
   }
 }
