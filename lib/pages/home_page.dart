@@ -7,8 +7,10 @@ import 'package:trip/dao/home_dao.dart';
 import 'package:trip/model/common_model.dart';
 import 'package:trip/model/grid_nav_model.dart';
 import 'package:trip/model/home_model.dart';
+import 'package:trip/model/sales_box_model.dart';
 import 'package:trip/widget/grid_nav.dart';
 import 'package:trip/widget/local_nav.dart';
+import 'package:trip/widget/sales_box.dart';
 import 'package:trip/widget/sub_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
@@ -31,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   List<CommonModel> localNavList = [];
   List<CommonModel> subNavList = [];
   GridNavModel gridNavModel;
+  SalesBoxModel salesBoxlist;
 
   _onScroll(offset) {
     // 动态设置透明度
@@ -67,6 +70,7 @@ class _HomePageState extends State<HomePage> {
       localNavList = model.localNavList;
       gridNavModel = model.gridNav;
       subNavList = model.subNavList;
+      salesBoxlist = model.salesBox;
 
 
     });
@@ -114,7 +118,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     LocalNav(localNavList: localNavList,),
                     GridNav(gridNavModel: gridNavModel,),
-//                    SubNav(subNavList: subNavList,),
+                    SubNav(subNavList: subNavList,),
+                    SalesBox(salesBox: salesBoxlist,),
                     Container(
                       height: 800,
                       child: ListTile(title: Text(resultString)),
