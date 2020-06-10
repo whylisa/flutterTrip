@@ -53,10 +53,10 @@ class _HomePageState extends State<HomePage> {
   @override
   initState() {
     super.initState();
-    loadData();
+    _handRefresh();
 
   }
-  loadData() async{
+  Future<Null> _handRefresh() async{
 //    HomeDao.fetch().then((value){
 //      setState(() {
 //        resultString = json.encode(value);
@@ -82,6 +82,7 @@ class _HomePageState extends State<HomePage> {
 
     });
   }
+  return null;
   }
   @override
   Widget build(BuildContext context) {
@@ -93,43 +94,46 @@ class _HomePageState extends State<HomePage> {
             MediaQuery.removePadding( // 移除padding
                 removeTop: true,// 移除哪边的padding
                 context: context,
-                child: NotificationListener( // 监听滚动
-                  onNotification: (scrollNotification){
-                    // 第0个元素触发滚动监听
-                    if(scrollNotification is ScrollUpdateNotification && scrollNotification.depth==0){
-                      // 滚动且是列表滚动的时候
-                      _onScroll(scrollNotification.metrics.pixels);
-                    }
-                  },
-                  child: ListView( // 列表
-                    children: <Widget>[
-                      Container(
-                        height: 160,
-                        child: Swiper(
-                          itemCount: _imageUrls.length,
-                          autoplay: true,
-                          itemBuilder: (BuildContext context, int index){
-                            return Image.network(
-                              _imageUrls[index],
-                              fit: BoxFit.fill,
-                            );
-                          },
-                          pagination: SwiperPagination(),
+                child: RefreshIndicator(
+                  onRefresh: _handRefresh,
+                  child: NotificationListener( // 监听滚动
+                    onNotification: (scrollNotification){
+                      // 第0个元素触发滚动监听
+                      if(scrollNotification is ScrollUpdateNotification && scrollNotification.depth==0){
+                        // 滚动且是列表滚动的时候
+                        _onScroll(scrollNotification.metrics.pixels);
+                      }
+                    },
+                    child: ListView( // 列表
+                      children: <Widget>[
+                        Container(
+                          height: 160,
+                          child: Swiper(
+                            itemCount: _imageUrls.length,
+                            autoplay: true,
+                            itemBuilder: (BuildContext context, int index){
+                              return Image.network(
+                                _imageUrls[index],
+                                fit: BoxFit.fill,
+                              );
+                            },
+                            pagination: SwiperPagination(),
 
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-                      ),
-                      LocalNav(localNavList: localNavList,),
-                      GridNav(gridNavModel: gridNavModel,),
-                      SubNav(subNavList: subNavList,),
-                      SalesBox(salesBox: salesBoxlist,),
-                      Container(
-                        height: 800,
-                        child: ListTile(title: Text(resultString)),
-                      )
-                    ],
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                        ),
+                        LocalNav(localNavList: localNavList,),
+                        GridNav(gridNavModel: gridNavModel,),
+                        SubNav(subNavList: subNavList,),
+                        SalesBox(salesBox: salesBoxlist,),
+                        Container(
+                          height: 800,
+                          child: ListTile(title: Text(resultString)),
+                        )
+                      ],
+                    ),
                   ),
                 )
             ),
