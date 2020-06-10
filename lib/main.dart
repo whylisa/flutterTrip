@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:trip/demoBooks/tabBar.dart';
 import 'package:trip/navigator/tab_navigator.dart';
 
+import 'demoBooks/dismissible.dart';
 import 'demoBooks/drawer.dart';
  void main() => runApp(MyApp());
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Drawers(),
+        home: Dismissiblesss(),
       );
   }
 
